@@ -1,0 +1,57 @@
+class Solution 
+{
+    public:
+        vector<int> dijkstra(int V, vector<vector<int>> &Edges, int Source) 
+        {
+            priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Priority;
+            
+            vector<vector<pair<int, int>>> Network;
+            vector<int> Distances (V, INT_MAX);
+            
+            Distances[Source] = 0;
+            Priority.push({0, Source});
+            
+            Network = Network_Create(V, Edges);
+            
+            while(Priority.empty() == false)
+            {
+                int Distance = Priority.top().first;
+                int Node = Priority.top().second;
+                
+                Priority.pop();
+                
+                if(Distances[Node] < Distance)
+                {
+                    continue;
+                }
+                
+                Distances[Node] = Distance;
+                
+                for(auto X : Network[Node])
+                {
+                    if(Distances[X.first] > Distance + X.second)
+                    {
+                        Distances[X.first] = Distance + X.second;
+                        
+                        Priority.push({Distances[X.first], X.first});
+                    }
+                }
+            }
+            
+            return Distances;
+        }
+        
+        vector<vector<pair<int, int>>> Network_Create(int V, vector<vector<int>> &Edges)
+        {
+            vector<vector<pair<int, int>>> Network (V);
+            
+            for(auto X : Edges)
+            {
+                Network[X[0]].push_back({X[1], X[2]});
+                
+                Network[X[1]].push_back({X[0], X[2]});
+            }
+            
+            return Network;
+        }
+};
