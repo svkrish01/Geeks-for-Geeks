@@ -1,0 +1,37 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 22-09-2025
+Platform    - Geeks for Geeks
+*/
+
+//DFS of graph
+
+class Solution 
+{
+     public:
+        vector<int> dfs(vector<vector<int>>& Adj) 
+        {
+            int N = Adj.size();
+            vector<int> Check (N, 0);
+            
+            vector<int> Order;
+            
+            Search(0, Order, Check, Adj);
+            
+            return Order;
+        }
+        
+        void Search(int N, vector<int>& Order, vector<int>& Check, vector<vector<int>>& Adj)
+        {
+            Order.push_back(N);
+            Check[N] = 1;
+            
+            for(int X : Adj[N])
+            {
+                if(Check[X] == 0)
+                {
+                    Search(X, Order, Check, Adj);
+                }
+            }
+        }
+};
