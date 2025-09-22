@@ -1,0 +1,44 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 22-09-2025
+Platform    - Geeks for Geeks
+*/
+
+//BFS of graph
+
+class Solution 
+    {
+      public:
+        vector<int> bfs(vector<vector<int>> &Adj) 
+        {
+            int N = Adj.size();
+            vector<int> Check (N, 0);
+            
+            queue<int> Q;
+            vector<int> Order;
+            
+            Q.push(0);
+            Check[0] = 1;
+            
+            while(Q.empty() == false)
+            {
+                int Temp;
+                
+                Temp = Q.front();
+                Q.pop();
+                
+                Order.push_back(Temp);
+                
+                for(int X : Adj[Temp])
+                {
+                    if(Check[X] == 0)
+                    {
+                        Check[X] = 1;
+                        Q.push(X);
+                    }
+                }
+            }
+            
+            return Order;
+        }
+};
