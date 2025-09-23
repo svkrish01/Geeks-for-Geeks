@@ -1,0 +1,48 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 23-09-2025
+Platform    - Geeks for Geeks
+*/
+
+//Number of Provinces
+
+class Solution 
+{
+    public:
+        int numProvinces(vector<vector<int>> Adj, int V) 
+        {
+            vector<int> Check (V, 0);
+            int Provinces = 0;
+            
+            queue<int> Q;
+            
+            for(int X = 0; X < V; X++)
+            {
+                if (Check[X] == 0)
+                {
+                    Provinces++;
+                    
+                    Q.push(X);
+                    
+                    while(Q.empty() == false)
+                    {
+                        int Temp = Q.front();
+                        Q.pop();
+                        
+                        Check[Temp] = 1;
+                        
+                        for(int Y = 0; Y < V; Y++)
+                        {
+                            if(Adj[Temp][Y] == 1 && Check[Y] == 0)
+                            {
+                                Q.push(Y);
+                            }
+                        }
+                    }
+                }
+                
+            }
+            
+            return Provinces;
+        }
+};
