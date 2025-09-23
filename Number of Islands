@@ -1,0 +1,87 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 23-09-2025
+Platform    - Geeks for Geeks
+*/
+
+//Number of Islands
+
+class Solution 
+{
+    public:
+        vector<int> numOfIslands(int N, int M, vector<vector<int>> &Operators) 
+        {
+            vector<vector<int>> Map (N, vector<int>(M, 0));
+            int Changes = Operators.size();
+            
+            vector<int> Output;
+            
+            for(int X = 0; X < Changes; X++)
+            {
+                Map[Operators[X][0]][Operators[X][1]] = 1;
+                
+                int Temp = Count(Map);
+                
+                Output.push_back(Temp);
+            }
+            
+            return Output;
+        }
+        
+        int Count(vector<vector<int>> Map)
+        {
+            int N = Map.size();
+            int M = Map[0].size();
+            int Count = 0;
+            
+            queue<vector<int>> Q;
+            
+            for(int X = 0; X < N; X++)
+            {
+                for(int Y = 0; Y < M; Y++)
+                {
+                    if(Map[X][Y] == 1)
+                    {
+                        Q.push({X, Y});
+                        
+                        Count++;
+                        
+                        while(Q.empty() == false)
+                        {
+                            vector<int> Temp = Q.front();
+                            Q.pop();
+                            
+                            int I = Temp[0];
+                            int J = Temp[1];
+                            
+                            Map[I][J] = 2;
+        int numProvinces(vector<vector<int>> Adj, int V) 
+        {
+                            
+                            if(I > 0 && Map[I-1][J] == 1)
+                            {
+                                Q.push({I-1, J});
+                            }
+                            
+                            if(I < N-1 && Map[I+1][J] == 1)
+                            {
+                                Q.push({I+1, J});
+                            }
+                            
+                            if(J > 0 && Map[I][J-1] == 1)
+                            {
+                                Q.push({I, J-1});
+                            }
+                            
+                            if(J < M-1 && Map[I][J+1] == 1)
+                            {
+                                Q.push({I, J+1});
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return Count;
+        }
+};
