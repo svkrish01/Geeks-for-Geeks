@@ -1,0 +1,85 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 05-03-2026
+Platform    - None
+*/
+
+// A-Star Algorithm
+
+class Solution 
+{
+    public:
+    
+        vector<vector<pair<int, int>>> Network_Create(int V, vector<vector<int>> &Edges)
+        {
+            vector<vector<pair<int, int>>> Network(V);
+            
+            for(auto X : Edges)
+            {
+                Network[X[0]].push_back({X[1], X[2]});
+                Network[X[1]].push_back({X[0], X[2]});
+            }
+            
+            return Network;
+        }
+    
+        int Heuristic(int Node, int Target)
+        {
+            // Hueristic
+
+            return 0;
+        }
+    
+        vector<int> A-Star(int V, vector<vector<int>> &Edges, int Source, int Target) 
+        {
+            priority_queue<
+                pair<int, int>,
+                vector<pair<int, int>>,
+                greater<pair<int, int>>
+            > Priority;
+            
+            vector<vector<pair<int, int>>> Network = Network_Create(V, Edges);
+            vector<int> Distances(V, INT_MAX);
+            vector<int> Parent(V, -1);
+            
+            Distances[Source] = 0;
+            Priority.push({Heuristic(Source, Target), Source});
+            
+            while(!Priority.empty())
+            {
+                int EstimatedCost = Priority.top().first;
+                int Node = Priority.top().second;
+                Priority.pop();
+                
+                // Skip stale entries
+                if(EstimatedCost > Distances[Node] + Heuristic(Node, Target))
+                {
+                    continue;
+                }
+                
+                // Target reached
+                if(Node == Target)
+                {
+                    break;
+                }
+                
+                for(auto X : Network[Node])
+                {
+                    int NextNode = X.first;
+                    int Weight = X.second;
+                    int NewDistance = Distances[Node] + Weight;
+                    
+                    if(NewDistance < Distances[NextNode])
+                    {
+                        Distances[NextNode] = NewDistance;
+                        Parent[NextNode] = Node;
+                        
+                        int PriorityValue = NewDistance + Heuristic(NextNode, Target);
+                        Priority.push({PriorityValue, NextNode});
+                    }
+                }
+            }
+            
+            return Distances;
+        }
+};
