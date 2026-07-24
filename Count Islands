@@ -4,7 +4,7 @@ Date        - 25-07-2026
 Platform    - Geeks for Geeks
 */
 
-//Number of Islands
+//Count Islands
 
 class Solution 
 {
