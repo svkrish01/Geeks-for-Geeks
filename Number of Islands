@@ -1,6 +1,6 @@
 /*
 Developer   - Sriram Venkata Krishna
-Date        - 23-09-2025
+Date        - 25-07-2026
 Platform    - Geeks for Geeks
 */
 
@@ -8,78 +8,57 @@ Platform    - Geeks for Geeks
 
 class Solution 
 {
-    public:
-        vector<int> numOfIslands(int N, int M, vector<vector<int>> &Operators) 
-        {
-            vector<vector<int>> Map (N, vector<int>(M, 0));
-            int Changes = Operators.size();
-            
-            vector<int> Output;
-            
-            for(int X = 0; X < Changes; X++)
-            {
-                Map[Operators[X][0]][Operators[X][1]] = 1;
-                
-                int Temp = Count(Map);
-                
-                Output.push_back(Temp);
-            }
-            
-            return Output;
-        }
+  public:
+    int countIslands(vector<vector<char>>& Grid) 
+    {
+        int Islands = 0;
         
-        int Count(vector<vector<int>> Map)
+        queue<vector<int>> Q;
+        vector<int> Temp;
+        
+        int M = Grid.size();
+        int N = Grid[0].size();
+        
+        vector<vector<int>> Check (M, vector<int>(N, 0));
+        
+        for(int X = 0; X < M; X++)
         {
-            int N = Map.size();
-            int M = Map[0].size();
-            int Count = 0;
-            
-            queue<vector<int>> Q;
-            
-            for(int X = 0; X < N; X++)
+            for(int Y = 0; Y < N; Y++)
             {
-                for(int Y = 0; Y < M; Y++)
+                if(Grid[X][Y] == 'L' && Check[X][Y] == 0)
                 {
-                    if(Map[X][Y] == 1)
+                    Q.push({X, Y});
+                    Check[X][Y] = 1;
+                    
+                    Islands++;
+                    
+                    while(Q.empty() == false)
                     {
-                        Q.push({X, Y});
+                        Temp = Q.front();
+                        Q.pop();
                         
-                        Count++;
-                        
-                        while(Q.empty() == false)
+                        for(int I = Temp[0]-1; I < Temp[0]+2; I++)
                         {
-                            vector<int> Temp = Q.front();
-                            Q.pop();
-                            
-                            int I = Temp[0];
-                            int J = Temp[1];
-                            
-                            Map[I][J] = 2;
-                            
-                            if(I > 0 && Map[I-1][J] == 1)
+                            if(I > -1 && I < M)
                             {
-                                Q.push({I-1, J});
-                            }
-                            
-                            if(I < N-1 && Map[I+1][J] == 1)
-                            {
-                                Q.push({I+1, J});
-                            }
-                            
-                            if(J > 0 && Map[I][J-1] == 1)
-                            {
-                                Q.push({I, J-1});
-                            }
-                            
-                            if(J < M-1 && Map[I][J+1] == 1)
-                            {
-                                Q.push({I, J+1});
+                                for(int J = Temp[1]-1; J < Temp[1]+2; J++)
+                                {
+                                    if(J > -1 && J < N)
+                                    {
+                                        if(Grid[I][J] == 'L' && Check[I][J] == 0)
+                                        {
+                                            Check[I][J] = 1;
+                                            Q.push({I, J});
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-            
-            return Count;
         }
+        
+        return Islands;
+    }
 };
