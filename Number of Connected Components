@@ -1,0 +1,56 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 25-07-2025
+Platform    - Geeks for Geeks
+*/
+
+//Number of Connected Components
+
+class Solution 
+{
+  public:
+    int countConnected(int V, vector<vector<int>>& Edges) 
+    {
+        vector<vector<int>> Adj (V);
+        vector<int> Check (V, 0);
+        int E = Edges.size();
+        int Count = 0;
+        
+        queue<int> Q;
+        int Temp;
+        
+        for(int I = 0; I < E; I++)
+        {
+            Adj[Edges[I][0]].push_back(Edges[I][1]);
+            Adj[Edges[I][1]].push_back(Edges[I][0]);
+        }
+        
+        for(int I = 0; I < V; I++)
+        {
+            if(Check[I] == 0)
+            {
+                Q.push(I);
+                Check[I] = 1;
+                
+                Count++;
+                
+                while(Q.empty() == false)
+                {
+                    Temp = Q.front();
+                    Q.pop();
+                    
+                    for(int X : Adj[Temp])
+                    {
+                        if(Check[X] == 0)
+                        {
+                            Q.push(X);
+                            Check[X] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return Count;
+    }
+};
