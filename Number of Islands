@@ -55,8 +55,6 @@ class Solution
                             int J = Temp[1];
                             
                             Map[I][J] = 2;
-        int numProvinces(vector<vector<int>> Adj, int V) 
-        {
                             
                             if(I > 0 && Map[I-1][J] == 1)
                             {
