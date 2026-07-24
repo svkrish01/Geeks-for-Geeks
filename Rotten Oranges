@@ -1,0 +1,104 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 25-07-2026
+Platform    - Geeks for Geeks
+*/
+
+//Rotten Oranges
+
+class Solution 
+{
+    public:
+        int orangesRot(vector<vector<int>>& Mat) 
+        {
+            int M = Mat.size();
+            int N = Mat[0].size();
+            int Time_Max = 0;
+            
+            vector<vector<int>> Time (M, vector<int>(N, 0));
+            vector<int> Temp;
+            int X, Y;
+            
+            queue<vector<int>> Q;
+            
+            for(int I = 0; I < M; I++)
+            {
+                for(int J = 0; J < N; J++)
+                {
+                    if(Mat[I][J] == 2)
+                    {
+                        Q.push({I, J});
+                        Time[I][J] = 0;
+                    }
+                }
+            }
+            
+            while(Q.empty() == false)
+            {
+                Temp = Q.front();
+                Q.pop();
+                
+                X = Temp[0];
+                Y = Temp[1];
+                
+                Time_Max = Time[X][Y];
+                
+                if(X > 0)
+                {
+                    if(Mat[X-1][Y] == 1)
+                    {
+                        Mat[X-1][Y] = 2;
+                        Time[X-1][Y] = Time[X][Y] + 1;
+                        
+                        Q.push({X-1, Y});
+                    }
+                }
+                
+                if(Y > 0)
+                {
+                    if(Mat[X][Y-1] == 1)
+                    {
+                        Mat[X][Y-1] = 2;
+                        Time[X][Y-1] = Time[X][Y] + 1;
+                        
+                        Q.push({X, Y-1});
+                    }
+                }
+                
+                if(X < M-1)
+                {
+                    if(Mat[X+1][Y] == 1)
+                    {
+                        Mat[X+1][Y] = 2;
+                        Time[X+1][Y] = Time[X][Y] + 1;
+                        
+                        Q.push({X+1, Y});
+                    }
+                }
+                
+                if(Y < N-1)
+                {
+                    if(Mat[X][Y+1] == 1)
+                    {
+                        Mat[X][Y+1] = 2;
+                        Time[X][Y+1] = Time[X][Y] + 1;
+                        
+                        Q.push({X, Y+1});
+                    }
+                }
+            }
+            
+            for(int I = 0; I < M; I++)
+            {
+                for(int J = 0; J < N; J++)
+                {
+                    if(Mat[I][J] == 1)
+                    {
+                        return -1;
+                    }
+                }
+            }
+            
+            return Time_Max;
+        }
+};
