@@ -1,0 +1,75 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 25-07-2026
+Platform    - Geeks for Geeks
+*/
+
+//Flood Fill Algorithm
+
+class Solution 
+{
+  public:
+    vector<vector<int>> floodFill(vector<vector<int>>& Image, int R, int C, int New) 
+    {
+        int Old = Image[R][C];
+        int M = Image.size();
+        int N = Image[0].size();
+        
+        queue<vector<int>> Q;
+        vector<int> Temp;
+        int I, J;
+        
+        if(Old != New)
+        {
+            Q.push({R, C});
+            Image[R][C] = New;
+        }
+        
+        while(Q.empty() == false)
+        {
+            Temp = Q.front();
+            Q.pop();
+            
+            I = Temp[0];
+            J = Temp[1];
+            
+            if(I-1 >= 0)
+            {
+                if(Image[I-1][J] == Old)
+                {
+                    Image[I-1][J] = New;
+                    Q.push({I-1, J});
+                }
+            }
+            
+            if(J-1 >= 0)
+            {
+                if(Image[I][J-1] == Old)
+                {
+                    Image[I][J-1] = New;
+                    Q.push({I, J-1});
+                }
+            }
+            
+            if(I+1 < M)
+            {
+                if(Image[I+1][J] == Old)
+                {
+                    Image[I+1][J] = New;
+                    Q.push({I+1, J});
+                }
+            }
+            
+            if(J+1 < N)
+            {
+                if(Image[I][J+1] == Old)
+                {
+                    Image[I][J+1] = New;
+                    Q.push({I, J+1});
+                }
+            }
+        }
+        
+        return Image;
+    }
+};
