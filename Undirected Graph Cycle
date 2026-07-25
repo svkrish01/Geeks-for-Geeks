@@ -1,0 +1,60 @@
+/*
+Developer   - Sriram Venkata Krishna
+Date        - 25-07-2026
+Platform    - Geeks for Geeks
+*/
+
+//Undirected Graph Cycle
+
+class Solution 
+{
+    public:
+        bool isCycle(int V, vector<vector<int>>& Edges) 
+        {
+            // Code here
+            vector<vector<int>> Adj (V);
+            vector<int> Check (V, 0);
+            vector<int> Parent (V, -1);
+            
+            int X, Y;
+            
+            queue<int> Q;
+            
+            for(vector<int> Temp : Edges)
+            {
+                Adj[Temp[0]].push_back(Temp[1]);
+                Adj[Temp[1]].push_back(Temp[0]);
+            }
+            
+            for(X = 0; X < V; X++)
+            {
+                if(Check[X] == 0)
+                {
+                    Q.push(X);
+                    Check[X] = 1;
+                    
+                    while(Q.empty() == false)
+                    {
+                        Y = Q.front();
+                        Q.pop();
+                        
+                        for(int I : Adj[Y])
+                        {
+                            if(Check[I] == 0)
+                            {
+                                Check[I] = 1;
+                                Q.push(I);
+                                Parent[I] = Y;
+                            }
+                            else if(I != Parent[Y])
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+};
