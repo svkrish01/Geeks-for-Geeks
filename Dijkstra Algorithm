@@ -1,6 +1,6 @@
 /*
 Developer   - Sriram Venkata Krishna
-Date        - 18-09-2025
+Date        - 25-07-2025
 Platform    - Geeks for Geeks
 */
 
@@ -9,57 +9,43 @@ Platform    - Geeks for Geeks
 class Solution 
 {
     public:
-        vector<int> dijkstra(int V, vector<vector<int>> &Edges, int Source) 
+        vector<int> dijkstra(int V, vector<vector<int>> &Edges, int S) 
         {
-            priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Priority;
+            vector<int> Distance (V, INT_MAX);
             
-            vector<vector<pair<int, int>>> Network;
-            vector<int> Distances (V, INT_MAX);
+            vector<vector<pair<int, int>>> Adj (V);
+            int Y, Z;
             
-            Distances[Source] = 0;
-            Priority.push({0, Source});
+            priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
             
-            Network = Network_Create(V, Edges);
-            
-            while(Priority.empty() == false)
+            for(vector<int> Temp : Edges)
             {
-                int Distance = Priority.top().first;
-                int Node = Priority.top().second;
+                Adj[Temp[0]].push_back({Temp[1], Temp[2]});
+                Adj[Temp[1]].push_back({Temp[0], Temp[2]});
+            }
+            
+            Q.push({0, S});
+            Distance[S] = 0;
+            
+            while(Q.empty() == false)
+            {
+                Y = Q.top().second;
+                Z = Q.top().first;
                 
-                Priority.pop();
+                Q.pop();
                 
-                if(Distances[Node] < Distance)
+                if(Z > Distance[Y]) continue;
+                
+                for(pair<int, int> X : Adj[Y])
                 {
-                    continue;
-                }
-                
-                Distances[Node] = Distance;
-                
-                for(auto X : Network[Node])
-                {
-                    if(Distances[X.first] > Distance + X.second)
+                    if(Distance[X.first] > Z + X.second)
                     {
-                        Distances[X.first] = Distance + X.second;
-                        
-                        Priority.push({Distances[X.first], X.first});
+                        Distance[X.first] = Z + X.second;
+                        Q.push({Distance[X.first], X.first});
                     }
                 }
             }
             
-            return Distances;
-        }
-        
-        vector<vector<pair<int, int>>> Network_Create(int V, vector<vector<int>> &Edges)
-        {
-            vector<vector<pair<int, int>>> Network (V);
-            
-            for(auto X : Edges)
-            {
-                Network[X[0]].push_back({X[1], X[2]});
-                
-                Network[X[1]].push_back({X[0], X[2]});
-            }
-            
-            return Network;
+            return Distance;
         }
 };
